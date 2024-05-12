@@ -13,3 +13,6 @@ std::shared_ptr<Vertice> Arista::obtenerFin() const {
 std::shared_ptr<Peso> Arista::obtenerPeso() const { 
     return peso; 
 }
+
+
+// prueba de subida
