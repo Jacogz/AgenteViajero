@@ -1,3 +1,6 @@
+import Ciudad
+import Arista
+
 class Grafo:
     def __init__(self):
         self.vertices = {}

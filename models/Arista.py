@@ -1,3 +1,5 @@
+import Ciudad
+
 class Arista:
     def __init__(self, inicio, final, distancia):
         self.inicio = inicio
