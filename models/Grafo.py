@@ -1,4 +1,4 @@
-class Graph:
+class Grafo:
     def __init__(self):
         self.vertices = {}
         self.aristas = []
