@@ -1,5 +1,5 @@
-import Ciudad
-import Arista
+from Ciudad import Ciudad
+from Arista import Arista
 
 class Grafo:
     def __init__(self):

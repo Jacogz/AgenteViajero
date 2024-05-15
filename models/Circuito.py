@@ -1,4 +1,4 @@
-import Ciudad
+from Ciudad import Ciudad
 
 class Circuito:
     def __init__(self, nombre, ciudades):

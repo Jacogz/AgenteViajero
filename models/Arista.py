@@ -1,4 +1,4 @@
-import Ciudad
+from Ciudad import Ciudad
 
 class Arista:
     def __init__(self, inicio, final, distancia):
