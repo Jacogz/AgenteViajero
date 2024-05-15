@@ -1,4 +1,4 @@
-from Ciudad import Ciudad
+
 from Arista import Arista
 
 class Grafo:
@@ -46,3 +46,5 @@ class Grafo:
                 arista.inicio = circuito
             if arista.fin in ciudades:
                 arista.fin = circuito
+
+    #def depurar(self , )
