@@ -1,3 +1,4 @@
+from Circuito import Circuito
 
 from Arista import Arista
 
@@ -28,7 +29,7 @@ class Grafo:
                 vecinos.append(arista.inicio)
         return vecinos
 
-    def create_circuito_and_remove_ciudades(self, ciudad_nombres):
+    def crear_circuito(self, ciudad_nombres):
         ciudades = [self.vertices[nombre] for nombre in ciudad_nombres if nombre in self.vertices]
         if len(ciudades) < 2:
             print("At least two ciudades are required to create a circuito.")

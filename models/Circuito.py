@@ -1,5 +1,3 @@
-
-
 class Circuito:
     def __init__(self, nombre, ciudades):
         self.nombre = nombre
