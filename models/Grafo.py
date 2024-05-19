@@ -1,6 +1,7 @@
 from Circuito import Circuito
 
 from Arista import Arista
+from Circuito import Circuito
 
 class Grafo:
     def __init__(self):
@@ -48,4 +49,56 @@ class Grafo:
             if arista.fin in ciudades:
                 arista.fin = circuito
 
-    #def depurar(self , )
+    #def depurar(self ,  )
+
+    def ciudad_no_idonea(self, tiempo_ciudad, tiempo_viaje):
+        return tiempo_ciudad / tiempo_viaje
+
+    def encontrar_ciudades_no_idoneas(self, porcentaje_eliminar=0.1):
+        ciudades_no_idoneas = {}
+        for ciudad in self.vertices.values():
+            if isinstance(ciudad, Circuito):
+                continue
+            tiempo_para_atender = ciudad.tiempoAtencion
+            tiempo_a_bogota = self.get_tiempo_a_bogota(ciudad.nombre)
+            ciudad_no_idonea = self.ciudad_no_idonea(tiempo_para_atender, tiempo_a_bogota)
+            ciudades_no_idoneas[ciudad.nombre] = ciudad_no_idonea
+
+        
+        ciudades_ordenadas = sorted(ciudades_no_idoneas.items(), key=lambda x: x[1])
+        
+        
+        num_eliminar = int(len(ciudades_ordenadas) * porcentaje_eliminar)
+        
+        
+        ciudades_a_eliminar = [nombre for nombre, valor in ciudades_ordenadas[:num_eliminar]]
+
+        return ciudades_a_eliminar
+
+    def eliminar_ciudades_no_idoneas(self, porcentaje_eliminar=0.1):
+        ciudades_no_idoneas = self.encontrar_ciudades_no_idoneas(porcentaje_eliminar)
+        
+        for ciudad_nombre in ciudades_no_idoneas:
+            if ciudad_nombre in self.vertices:
+                del self.vertices[ciudad_nombre]
+                self.aristas = [arista for arista in self.aristas if ciudad_nombre not in [arista.inicio.nombre, arista.fin.nombre]]
+
+        for vertice in list(self.vertices.values()):
+            if isinstance(vertice, Circuito):
+                ciudades_a_remover = [ciudad for ciudad in vertice.ciudades if ciudad.nombre in ciudades_no_idoneas]
+                for ciudad in ciudades_a_remover:
+                    vertice.ciudades.remove(ciudad)
+                    self.aristas = [arista for arista in self.aristas if ciudad.nombre not in [arista.inicio.nombre, arista.fin.nombre]]
+                vertice.tiempoAtencion = sum(ciudad.tiempoAtencion for ciudad in vertice.ciudades)
+
+                # Si el circuito se queda vacío, eliminarlo
+                if not vertice.ciudades:
+                    del self.vertices[vertice.nombre]
+
+    def get_tiempo_a_bogota(self, ciudad_nombre):
+        for arista in self.aristas:
+            if arista.inicio.nombre == ciudad_nombre and arista.final.nombre == "Bogota":
+                return arista.distancia
+            elif arista.final.nombre == ciudad_nombre and arista.inicio.nombre == "Bogota":
+                return arista.distancia
+        return None
