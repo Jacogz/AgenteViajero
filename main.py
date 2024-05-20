@@ -1,3 +1,8 @@
+from models.Ciudad import Ciudad as ciudad
+from models.Grafo import Grafo
+from src.Pathfinder import Pathfinder
+
+
 ciudad0 = ciudad( "Leticia", 0.1)
 ciudad1 = ciudad( "Medellín",2.5)
 ciudad2 = ciudad("Arauca", 0.1)
@@ -29,6 +34,7 @@ ciudad27 = ciudad("Ibagué", 0.4)
 ciudad28 = ciudad("Cali", 2.3)
 ciudad29 = ciudad("Mitú", 0.1)
 
+grafo = Grafo()
 
 grafo.add_ciudad (ciudad0)
 grafo.add_ciudad (ciudad1)
@@ -527,3 +533,8 @@ grafo.add_arista(ciudad27, ciudad28, 1.55)
 grafo.add_arista(ciudad27, ciudad29, 0.44)
 
 grafo.add_arista(ciudad28, ciudad29, 1.11)
+
+grafo.eliminar_ciudades_no_idoneas()
+
+path = Pathfinder(grafo, ciudad13, 72)
+print(path)

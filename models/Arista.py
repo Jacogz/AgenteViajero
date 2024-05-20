@@ -1,8 +1,8 @@
 class Arista:
-    def __init__(self, inicio, final, distancia):
+    def __init__(self, inicio, fin, distancia):
         self.inicio = inicio
-        self.final = final
+        self.fin = fin
         self.distancia = distancia
 
     def __repr__(self):
-        return f"Arista({self.inicio.nombre} -> {self.final.nombre}, {self.distancia} horas)"
+        return f"Arista({self.inicio.nombre} -> {self.fin.nombre}, {self.distancia} horas)"

@@ -1,7 +1,5 @@
-from Circuito import Circuito
-
-from Arista import Arista
-from Circuito import Circuito
+from models.Arista import Arista
+from models.Circuito import Circuito
 
 class Grafo:
     def __init__(self):
@@ -59,10 +57,11 @@ class Grafo:
         for ciudad in self.vertices.values():
             if isinstance(ciudad, Circuito):
                 continue
-            tiempo_para_atender = ciudad.tiempoAtencion
-            tiempo_a_bogota = self.get_tiempo_a_bogota(ciudad.nombre)
-            ciudad_no_idonea = self.ciudad_no_idonea(tiempo_para_atender, tiempo_a_bogota)
-            ciudades_no_idoneas[ciudad.nombre] = ciudad_no_idonea
+            if ciudad.nombre != 'Bogotá':
+                tiempo_para_atender = ciudad.tiempoAtencion
+                tiempo_a_bogota = self.get_distancia(ciudad.nombre, "Bogotá")
+                ciudad_no_idonea = self.ciudad_no_idonea(tiempo_para_atender, tiempo_a_bogota)
+                ciudades_no_idoneas[ciudad.nombre] = ciudad_no_idonea
 
         
         ciudades_ordenadas = sorted(ciudades_no_idoneas.items(), key=lambda x: x[1])
@@ -95,10 +94,15 @@ class Grafo:
                 if not vertice.ciudades:
                     del self.vertices[vertice.nombre]
 
-    def get_tiempo_a_bogota(self, ciudad_nombre):
+    def get_distancia(self, ciudad1_nombre, ciudad2_nombre):
         for arista in self.aristas:
-            if arista.inicio.nombre == ciudad_nombre and arista.final.nombre == "Bogota":
+            if arista.inicio.nombre == ciudad1_nombre and arista.fin.nombre == ciudad2_nombre:
                 return arista.distancia
-            elif arista.final.nombre == ciudad_nombre and arista.inicio.nombre == "Bogota":
+            elif arista.fin.nombre == ciudad1_nombre and arista.inicio.nombre == ciudad2_nombre:
                 return arista.distancia
         return None
+    
+    def retirar_ciudad(self, ciudad_nombre):
+        del self.vertices[ciudad_nombre]
+        self.aristas = [arista for arista in self.aristas if ciudad_nombre not in [arista.inicio.nombre, arista.fin.nombre]]
+        
